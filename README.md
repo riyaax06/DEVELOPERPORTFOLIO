@@ -181,25 +181,7 @@ The portfolio templates use responsive layouts and mobile navigation to provide 
 - Extended theme customization
 - User account synchronization
 - Portfolio analytics and insights
-
-## Author
-
-**Riya Kumari**
-
-B.Tech — Computer Science and Engineering (AI & Data Science)
-
-GitHub: [@riyaax06](https://github.com/riyaax06)
-
----
-
-## License
-
-No license has currently been specified for this project. Please contact the repository owner for usage and distribution permissions.
-
----
-
-<p align="center">
-
+- 
 **Developer Portfolio Builder**
 
 *Designed to make professional portfolio creation simpler.*
