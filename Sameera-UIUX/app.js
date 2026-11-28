@@ -17,7 +17,7 @@
     { id: "mobile", label: "Mobile", width: "375px" },
   ];
 
-  // Try to read profile if available
+  // Read saved data if available
   let savedName = "Alex Morgan";
   let savedRole = "Frontend Developer";
   let savedBio = "I build accessible, thoughtful digital experiences with clean design systems.";
@@ -79,25 +79,27 @@
       .replace(/'/g, "&#039;");
   }
 
-  function render() {
-    const root = document.getElementById("root");
-    if (!root) return;
-
-    const activeThemeObj = THEMES.find((t) => t.id === state.theme) || THEMES[0];
-    const activeFont = FONTS.find((f) => f.id === state.fontId)?.family || FONTS[0].family;
-    const activeViewportWidth = VIEWPORTS.find((v) => v.id === state.viewport)?.width || "100%";
-    const contrastRatio = getContrastRatio(activeThemeObj.bg, state.accent);
-    const isAccessible = parseFloat(contrastRatio) >= 4.5;
-
-    const initials =
-      state.name
+  function getInitials(nameStr) {
+    return (
+      (nameStr || "")
         .trim()
         .split(" ")
         .filter(Boolean)
         .map((n) => n[0])
         .join("")
         .slice(0, 2)
-        .toUpperCase() || "AM";
+        .toUpperCase() || "AM"
+    );
+  }
+
+  // Initial full render of the page skeleton
+  function initPage() {
+    const root = document.getElementById("root");
+    if (!root) return;
+
+    const activeThemeObj = THEMES.find((t) => t.id === state.theme) || THEMES[0];
+    const contrastRatio = getContrastRatio(activeThemeObj.bg, state.accent);
+    const isAccessible = parseFloat(contrastRatio) >= 4.5;
 
     root.innerHTML = `
       <main class="pd-shell">
@@ -190,10 +192,10 @@
               </label>
             </div>
 
-            <div class="pd-wcag-box ${isAccessible ? "is-pass" : "is-warn"}">
+            <div id="wcag-box" class="pd-wcag-box ${isAccessible ? "is-pass" : "is-warn"}">
               <div>
-                <strong>WCAG Contrast Ratio: ${contrastRatio}:1</strong>
-                <small>
+                <strong id="wcag-title">WCAG Contrast Ratio: ${contrastRatio}:1</strong>
+                <small id="wcag-desc">
                   ${
                     isAccessible
                       ? "Passes WCAG AA readability on current theme"
@@ -201,7 +203,7 @@
                   }
                 </small>
               </div>
-              <span class="pd-wcag-pill">${isAccessible ? "AA PASS" : "CHECK"}</span>
+              <span id="wcag-pill" class="pd-wcag-pill">${isAccessible ? "AA PASS" : "CHECK"}</span>
             </div>
 
             <div class="pd-divider"></div>
@@ -216,11 +218,11 @@
 
             <label>
               Name
-              <input id="name-input" value="${esc(state.name)}" />
+              <input id="name-input" value="${esc(state.name)}" autocomplete="off" />
             </label>
             <label>
               Role
-              <input id="role-input" value="${esc(state.role)}" />
+              <input id="role-input" value="${esc(state.role)}" autocomplete="off" />
             </label>
             <label>
               Short introduction
@@ -235,7 +237,7 @@
             <div id="cs-fields" style="${state.showCaseStudy ? "" : "display:none"}">
               <label>
                 Featured project
-                <input id="project-input" value="${esc(state.project)}" />
+                <input id="project-input" value="${esc(state.project)}" autocomplete="off" />
               </label>
               <label>
                 Problem statement
@@ -267,76 +269,13 @@
                 `
                 ).join("")}
               </div>
-              <span class="pd-vp-size">
-                ${state.viewport.toUpperCase()} · ${activeViewportWidth}
+              <span class="pd-vp-size" id="vp-size-label">
+                ${state.viewport.toUpperCase()} · 100%
               </span>
             </div>
 
-            <div class="pd-preview-wrapper">
-              <section
-                class="pd-preview pd-preview-${state.theme}"
-                aria-label="Live portfolio preview"
-                style="width:${activeViewportWidth}; font-family:${activeFont}; --user-accent:${state.accent}"
-              >
-                <div class="pd-previewbar">
-                  <span>
-                    <b class="pd-live-dot"></b> LIVE PREVIEW · ${state.theme.toUpperCase()}
-                  </span>
-                  <span>CONTRAST ${contrastRatio}:1</span>
-                </div>
-
-                <div class="pd-preview-content">
-                  <div class="pd-preview-nav">
-                    <span class="pd-preview-logo">${esc(initials)}</span>
-                    <span>ABOUT&nbsp;&nbsp;&nbsp;WORK&nbsp;&nbsp;&nbsp;CONTACT</span>
-                  </div>
-
-                  <p class="pd-preview-kicker">HELLO, I'M</p>
-                  <h2>
-                    ${esc(state.name || "Your name")}<span>.</span>
-                  </h2>
-                  <p class="pd-preview-role">${esc(state.role || "Your role")}</p>
-                  <p class="pd-preview-about">
-                    ${esc(state.about || "A short introduction about you.")}
-                  </p>
-
-                  <button type="button" class="pd-cta">
-                    Explore my work <span>↗</span>
-                  </button>
-
-                  ${
-                    state.showCaseStudy
-                      ? `
-                    <div class="pd-project">
-                      <div class="pd-project-main">
-                        <p class="pd-preview-kicker">FEATURED PROJECT · 01</p>
-                        <h3>${esc(state.project || "Your featured project")}</h3>
-                        <div class="pd-cs-grid">
-                          <div>
-                            <strong>01 · PROBLEM</strong>
-                            <p>${esc(state.problem)}</p>
-                          </div>
-                          <div>
-                            <strong>02 · OUTCOME</strong>
-                            <p>${esc(state.outcome)}</p>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="pd-project-art">
-                        <span>✳</span>
-                        <small>CASE<br />STUDY</small>
-                      </div>
-                    </div>
-                  `
-                      : ""
-                  }
-
-                  <div class="pd-preview-foot">
-                    <span>DESIGNED WITH INTENTION</span>
-                    <span>SCROLL TO EXPLORE ↓</span>
-                  </div>
-                </div>
-              </section>
+            <div class="pd-preview-wrapper" id="preview-wrapper">
+              <!-- Live preview rendered here without reloading the input fields -->
             </div>
           </div>
         </section>
@@ -349,22 +288,145 @@
     `;
 
     bindEvents();
+    updatePreview();
+  }
+
+  // Update only the preview section and audit indicators (never destroys form inputs)
+  function updatePreview() {
+    const activeThemeObj = THEMES.find((t) => t.id === state.theme) || THEMES[0];
+    const activeFont = FONTS.find((f) => f.id === state.fontId)?.family || FONTS[0].family;
+    const activeViewportWidth = VIEWPORTS.find((v) => v.id === state.viewport)?.width || "100%";
+    const contrastRatio = getContrastRatio(activeThemeObj.bg, state.accent);
+    const isAccessible = parseFloat(contrastRatio) >= 4.5;
+    const initials = getInitials(state.name);
+
+    // Update contrast widget
+    const wcagBox = document.getElementById("wcag-box");
+    const wcagTitle = document.getElementById("wcag-title");
+    const wcagDesc = document.getElementById("wcag-desc");
+    const wcagPill = document.getElementById("wcag-pill");
+    if (wcagBox && wcagTitle && wcagDesc && wcagPill) {
+      wcagBox.className = `pd-wcag-box ${isAccessible ? "is-pass" : "is-warn"}`;
+      wcagTitle.textContent = `WCAG Contrast Ratio: ${contrastRatio}:1`;
+      wcagDesc.textContent = isAccessible
+        ? "Passes WCAG AA readability on current theme"
+        : "Low contrast — pick a darker/brighter accent";
+      wcagPill.textContent = isAccessible ? "AA PASS" : "CHECK";
+    }
+
+    // Update accent label
+    const accentLabel = document.getElementById("accent-label");
+    if (accentLabel) {
+      accentLabel.textContent = state.accent.toUpperCase();
+    }
+
+    // Update viewport label
+    const vpSizeLabel = document.getElementById("vp-size-label");
+    if (vpSizeLabel) {
+      vpSizeLabel.textContent = `${state.viewport.toUpperCase()} · ${activeViewportWidth}`;
+    }
+
+    // Update theme button states
+    document.querySelectorAll("#themes-group button").forEach((btn) => {
+      const isSelected = btn.dataset.themeId === state.theme;
+      btn.classList.toggle("is-selected", isSelected);
+      const radio = btn.querySelector(".pd-radio");
+      if (radio) radio.textContent = isSelected ? "✓" : "";
+    });
+
+    // Update viewport button states
+    document.querySelectorAll("#viewports-group button").forEach((btn) => {
+      btn.classList.toggle("is-active", btn.dataset.vpId === state.viewport);
+    });
+
+    // Render preview content inside #preview-wrapper
+    const previewWrapper = document.getElementById("preview-wrapper");
+    if (!previewWrapper) return;
+
+    previewWrapper.innerHTML = `
+      <section
+        class="pd-preview pd-preview-${state.theme}"
+        aria-label="Live portfolio preview"
+        style="width:${activeViewportWidth}; font-family:${activeFont}; --user-accent:${state.accent}"
+      >
+        <div class="pd-previewbar">
+          <span>
+            <b class="pd-live-dot"></b> LIVE PREVIEW · ${state.theme.toUpperCase()}
+          </span>
+          <span>CONTRAST ${contrastRatio}:1</span>
+        </div>
+
+        <div class="pd-preview-content">
+          <div class="pd-preview-nav">
+            <span class="pd-preview-logo">${esc(initials)}</span>
+            <span>ABOUT&nbsp;&nbsp;&nbsp;WORK&nbsp;&nbsp;&nbsp;CONTACT</span>
+          </div>
+
+          <p class="pd-preview-kicker">HELLO, I'M</p>
+          <h2>
+            ${esc(state.name || "Your name")}<span>.</span>
+          </h2>
+          <p class="pd-preview-role">${esc(state.role || "Your role")}</p>
+          <p class="pd-preview-about">
+            ${esc(state.about || "A short introduction about you.")}
+          </p>
+
+          <button type="button" class="pd-cta" onclick="event.preventDefault()">
+            Explore my work <span>↗</span>
+          </button>
+
+          ${
+            state.showCaseStudy
+              ? `
+            <div class="pd-project">
+              <div class="pd-project-main">
+                <p class="pd-preview-kicker">FEATURED PROJECT · 01</p>
+                <h3>${esc(state.project || "Your featured project")}</h3>
+                <div class="pd-cs-grid">
+                  <div>
+                    <strong>01 · PROBLEM</strong>
+                    <p>${esc(state.problem)}</p>
+                  </div>
+                  <div>
+                    <strong>02 · OUTCOME</strong>
+                    <p>${esc(state.outcome)}</p>
+                  </div>
+                </div>
+              </div>
+              <div class="pd-project-art">
+                <span>✳</span>
+                <small>CASE<br />STUDY</small>
+              </div>
+            </div>
+          `
+              : ""
+          }
+
+          <div class="pd-preview-foot">
+            <span>DESIGNED WITH INTENTION</span>
+            <span>SCROLL TO EXPLORE ↓</span>
+          </div>
+        </div>
+      </section>
+    `;
   }
 
   function bindEvents() {
     // Theme buttons
     document.querySelectorAll("#themes-group button").forEach((btn) => {
-      btn.addEventListener("click", () => {
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
         state.theme = btn.dataset.themeId;
-        render();
+        updatePreview();
       });
     });
 
     // Viewport buttons
     document.querySelectorAll("#viewports-group button").forEach((btn) => {
-      btn.addEventListener("click", () => {
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
         state.viewport = btn.dataset.vpId;
-        render();
+        updatePreview();
       });
     });
 
@@ -373,7 +435,7 @@
     if (fontSelect) {
       fontSelect.addEventListener("change", (e) => {
         state.fontId = e.target.value;
-        render();
+        updatePreview();
       });
     }
 
@@ -382,7 +444,7 @@
     if (accentInput) {
       accentInput.addEventListener("input", (e) => {
         state.accent = e.target.value;
-        render();
+        updatePreview();
       });
     }
 
@@ -391,30 +453,36 @@
     if (nameInput) {
       nameInput.addEventListener("input", (e) => {
         state.name = e.target.value;
-        render();
+        updatePreview();
       });
     }
+
     const roleInput = document.getElementById("role-input");
     if (roleInput) {
       roleInput.addEventListener("input", (e) => {
         state.role = e.target.value;
-        render();
+        updatePreview();
       });
     }
+
     const aboutInput = document.getElementById("about-input");
     if (aboutInput) {
       aboutInput.addEventListener("input", (e) => {
         state.about = e.target.value;
-        render();
+        updatePreview();
       });
     }
 
     // Toggle case study
     const csToggle = document.getElementById("cs-toggle");
+    const csFields = document.getElementById("cs-fields");
     if (csToggle) {
       csToggle.addEventListener("change", (e) => {
         state.showCaseStudy = e.target.checked;
-        render();
+        if (csFields) {
+          csFields.style.display = state.showCaseStudy ? "block" : "none";
+        }
+        updatePreview();
       });
     }
 
@@ -423,27 +491,29 @@
     if (projectInput) {
       projectInput.addEventListener("input", (e) => {
         state.project = e.target.value;
-        render();
+        updatePreview();
       });
     }
+
     const problemInput = document.getElementById("problem-input");
     if (problemInput) {
       problemInput.addEventListener("input", (e) => {
         state.problem = e.target.value;
-        render();
+        updatePreview();
       });
     }
+
     const outcomeInput = document.getElementById("outcome-input");
     if (outcomeInput) {
       outcomeInput.addEventListener("input", (e) => {
         state.outcome = e.target.value;
-        render();
+        updatePreview();
       });
     }
   }
 
-  document.addEventListener("DOMContentLoaded", render);
+  document.addEventListener("DOMContentLoaded", initPage);
   if (document.readyState === "complete" || document.readyState === "interactive") {
-    render();
+    initPage();
   }
 })();
