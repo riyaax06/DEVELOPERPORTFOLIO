@@ -2,9 +2,9 @@ import { useState } from "react";
 import "./PortfolioDesign.css";
 
 const THEMES = [
-  { id: "aurora", name: "Aurora", note: "Dark · Glassmorphism", badge: "Ag" },
-  { id: "minimal", name: "Minimal", note: "Editorial · Light", badge: "Ag" },
-  { id: "neon", name: "Neon", note: "Cyberpunk · Terminal", badge: ">_" },
+  { id: "aurora", name: "Aurora", note: "Dark · Glassmorphism", badge: "Ag", bg: "#1c1e34" },
+  { id: "minimal", name: "Minimal", note: "Editorial · Light", badge: "Ag", bg: "#f4eee5" },
+  { id: "neon", name: "Neon", note: "Cyberpunk · Terminal", badge: ">_", bg: "#060912" },
 ];
 
 const FONTS = [
@@ -19,13 +19,31 @@ const VIEWPORTS = [
   { id: "mobile", label: "Mobile", width: "375px" },
 ];
 
+function getLuminance(hex) {
+  const clean = hex.replace("#", "");
+  const rgb =.map((offset) => {
+    const channel = parseInt(clean.slice(offset, offset + 2), 16) / 255;
+    return channel <= 0.03928
+      ? channel / 12.92
+      : Math.pow((channel + 0.055) / 1.055, 2.4);
+  });
+  return 0.2126 * rgb + 0.7152 * rgb + 0.0722 * rgb;
+}
+
+function getContrastRatio(bgHex, fgHex) {
+  const l1 = getLuminance(bgHex);
+  const l2 = getLuminance(fgHex);
+  const brightest = Math.max(l1, l2);
+  const darkest = Math.min(l1, l2);
+  return ((brightest + 0.05) / (darkest + 0.05)).toFixed(1);
+}
+
 export default function PortfolioDesign() {
   const [theme, setTheme] = useState("aurora");
   const [fontId, setFontId] = useState("sans");
   const [viewport, setViewport] = useState("desktop");
   const [accent, setAccent] = useState("#c9f27a");
 
-  // Profile & Structured Case-Study State
   const [name, setName] = useState("Alex Morgan");
   const [role, setRole] = useState("Frontend Developer");
   const [about, setAbout] = useState(
@@ -40,17 +58,20 @@ export default function PortfolioDesign() {
   );
   const [showCaseStudy, setShowCaseStudy] = useState(true);
 
-  const activeFont =
-    FONTS.find((f) => f.id === fontId)?.family || FONTS[0].family;
+  const activeThemeObj = THEMES.find((t) => t.id === theme) || THEMES;
+  const activeFont = FONTS.find((f) => f.id === fontId)?.family || FONTS.family;
   const activeViewportWidth =
     VIEWPORTS.find((v) => v.id === viewport)?.width || "100%";
+
+  const contrastRatio = getContrastRatio(activeThemeObj.bg, accent);
+  const isAccessible = parseFloat(contrastRatio) >= 4.5;
 
   const initials =
     name
       .trim()
       .split(" ")
       .filter(Boolean)
-      .map((n) => n[0])
+      .map((n) => n)
       .join("")
       .slice(0, 2)
       .toUpperCase() || "AM";
@@ -62,28 +83,28 @@ export default function PortfolioDesign() {
           <span className="pd-mark">✳</span> folio
           <span className="pd-muted">/studio</span>
         </div>
-        <span className="pd-status">UI/UX DESIGN SYSTEM</span>
+        <span className="pd-status">UX ARCHITECTURE & TOKENS</span>
       </header>
 
       <section className="pd-heading">
         <div>
-          <p className="pd-eyebrow">PORTFOLIO BUILDER · UI/UX ARCHITECTURE</p>
+          <p className="pd-eyebrow">DESIGN SYSTEM · ACCESSIBILITY · VIEWPORTS</p>
           <h1>
             Make your work
             <br />
             <em>tell your story.</em>
           </h1>
           <p className="pd-intro">
-            Shape a clear, personal portfolio with live theme tokens (Aurora,
-            Minimal, Neon), typography controls, and responsive viewport previews.
+            UI/UX design system governing theme tokens (Aurora, Minimal, Neon),
+            real-time WCAG contrast validation, typography scales, and responsive viewports.
           </p>
         </div>
         <div className="pd-step">
           <span>01</span>
-          <span>Profile</span>
+          <span>Tokens</span>
           <i>—</i>
           <span>02</span>
-          <span>Tokens</span>
+          <span>WCAG Audit</span>
           <i>—</i>
           <span>03</span>
           <span>Preview</span>
@@ -91,12 +112,11 @@ export default function PortfolioDesign() {
       </section>
 
       <section className="pd-workspace">
-        {/* Left Control Panel */}
         <aside className="pd-panel">
           <div className="pd-panel-title">
             <div>
               <p className="pd-eyebrow">VISUAL DIRECTION</p>
-              <h2>Theme & Tokens</h2>
+              <h2>Theme & UX Audit</h2>
             </div>
             <span className="pd-number">01</span>
           </div>
@@ -140,7 +160,7 @@ export default function PortfolioDesign() {
             </label>
 
             <label>
-              Accent Color
+              Accent Token
               <div className="pd-color-wrap">
                 <input
                   type="color"
@@ -150,6 +170,20 @@ export default function PortfolioDesign() {
                 <span>{accent.toUpperCase()}</span>
               </div>
             </label>
+          </div>
+
+          <div className={`pd-wcag-box ${isAccessible ? "is-pass" : "is-warn"}`}>
+            <div>
+              <strong>WCAG Contrast Ratio: {contrastRatio}:1</strong>
+              <small>
+                {isAccessible
+                  ? "Passes WCAG AA readability on current theme"
+                  : "Low contrast — pick a darker/brighter accent"}
+              </small>
+            </div>
+            <span className="pd-wcag-pill">
+              {isAccessible ? "AA PASS" : "CHECK"}
+            </span>
           </div>
 
           <div className="pd-divider" />
@@ -217,12 +251,10 @@ export default function PortfolioDesign() {
           )}
 
           <p className="pd-hint">
-            All tokens map directly to CSS custom properties in{" "}
-            <code>css/variables.css</code>.
+            Tokens map to <code>css/variables.css</code> across all templates.
           </p>
         </aside>
 
-        {/* Right Live Preview Stage */}
         <div className="pd-stage">
           <div className="pd-stage-toolbar">
             <div className="pd-viewport-tabs">
@@ -257,7 +289,7 @@ export default function PortfolioDesign() {
                   <b className="pd-live-dot" /> LIVE PREVIEW ·{" "}
                   {theme.toUpperCase()}
                 </span>
-                <span>PORTFOLIO / 2026</span>
+                <span>CONTRAST {contrastRatio}:1</span>
               </div>
 
               <div className="pd-preview-content">
@@ -267,6 +299,7 @@ export default function PortfolioDesign() {
                 </div>
 
                 <p className="pd-preview-kicker">HELLO, I&apos;M</p>
+                <h2>
                 <h2>
                   {name || "Your name"}
                   <span>.</span>
@@ -297,7 +330,6 @@ export default function PortfolioDesign() {
                       </div>
                     </div>
                     <div className="pd-project-art">
-                    <div className="pd-project-art">
                       <span>✳</span>
                       <small>
                         CASE
@@ -319,7 +351,7 @@ export default function PortfolioDesign() {
       </section>
 
       <footer className="pd-footer">
-        A UI/UX design system for the Developer Portfolio & Case-Study Builder{" "}
+        UI/UX Architecture & Design System for Developer Portfolio Builder{" "}
         <span>·</span> Sameera Khan
       </footer>
     </main>
