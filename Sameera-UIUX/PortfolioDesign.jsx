@@ -21,13 +21,13 @@ const VIEWPORTS = [
 
 function getLuminance(hex) {
   const clean = hex.replace("#", "");
-  const rgb =.map((offset) => {
+  const rgb = [0, 2, 4].map((offset) => {
     const channel = parseInt(clean.slice(offset, offset + 2), 16) / 255;
     return channel <= 0.03928
       ? channel / 12.92
       : Math.pow((channel + 0.055) / 1.055, 2.4);
   });
-  return 0.2126 * rgb + 0.7152 * rgb + 0.0722 * rgb;
+  return 0.2126 * rgb[0] + 0.7152 * rgb[1] + 0.0722 * rgb[2];
 }
 
 function getContrastRatio(bgHex, fgHex) {
@@ -58,8 +58,8 @@ export default function PortfolioDesign() {
   );
   const [showCaseStudy, setShowCaseStudy] = useState(true);
 
-  const activeThemeObj = THEMES.find((t) => t.id === theme) || THEMES;
-  const activeFont = FONTS.find((f) => f.id === fontId)?.family || FONTS.family;
+  const activeThemeObj = THEMES.find((t) => t.id === theme) || THEMES[0];
+  const activeFont = FONTS.find((f) => f.id === fontId)?.family || FONTS[0].family;
   const activeViewportWidth =
     VIEWPORTS.find((v) => v.id === viewport)?.width || "100%";
 
@@ -71,7 +71,7 @@ export default function PortfolioDesign() {
       .trim()
       .split(" ")
       .filter(Boolean)
-      .map((n) => n)
+      .map((n) => n[0])
       .join("")
       .slice(0, 2)
       .toUpperCase() || "AM";
@@ -127,7 +127,10 @@ export default function PortfolioDesign() {
                 key={item.id}
                 type="button"
                 className={`pd-theme ${theme === item.id ? "is-selected" : ""}`}
-                onClick={() => setTheme(item.id)}
+                onClick={(e) => {
+                  e.preventDefault();
+                  setTheme(item.id);
+                }}
                 aria-pressed={theme === item.id}
               >
                 <span className={`pd-swatch pd-swatch-${item.id}`}>
@@ -262,7 +265,10 @@ export default function PortfolioDesign() {
                 <button
                   key={v.id}
                   type="button"
-                  onClick={() => setViewport(v.id)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setViewport(v.id);
+                  }}
                   className={`pd-vp-btn ${viewport === v.id ? "is-active" : ""}`}
                 >
                   {v.label}
@@ -295,11 +301,13 @@ export default function PortfolioDesign() {
               <div className="pd-preview-content">
                 <div className="pd-preview-nav">
                   <span className="pd-preview-logo">{initials}</span>
+              <div className="pd-preview-content">
+                <div className="pd-preview-nav">
+                  <span className="pd-preview-logo">{initials}</span>
                   <span>ABOUT&nbsp;&nbsp;&nbsp;WORK&nbsp;&nbsp;&nbsp;CONTACT</span>
                 </div>
 
                 <p className="pd-preview-kicker">HELLO, I&apos;M</p>
-                <h2>
                 <h2>
                   {name || "Your name"}
                   <span>.</span>
@@ -309,7 +317,11 @@ export default function PortfolioDesign() {
                   {about || "A short introduction about you."}
                 </p>
 
-                <button type="button" className="pd-cta">
+                <button
+                  type="button"
+                  className="pd-cta"
+                  onClick={(e) => e.preventDefault()}
+                >
                   Explore my work <span>↗</span>
                 </button>
 
