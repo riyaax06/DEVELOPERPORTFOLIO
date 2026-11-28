@@ -41,6 +41,11 @@ A modern, responsive web application for developers to build, customize, and exp
   - **Live Editor:** Real-time color pickers (Primary & Secondary), Google Font switcher, and section visibility toggles.
   - **Responsive Device Preview:** Instant toggle between Desktop, Tablet, and Mobile viewports.
 
+- **AI Assistant & Print-Ready Resume:**
+  - **Chatbot Assistant:** In-browser smart assistant answering questions on writing strong case studies, templates, and export guidelines.
+  - **Resume Printout:** Instant print / PDF resume generation populated directly from your saved profile and projects.
+  - **Global Helper Widget:** Floating quick-access launcher available across every page.
+
 - **One-Click Export:**
   - Download a self-contained, standalone `.html` file ready to host on GitHub Pages, Vercel, Netlify, or any static host.
   - Copy full source code directly to clipboard.

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Get help building your developer portfolio with the DevPortfolio assistant.">
+  <title>Portfolio Assistant | DevPortfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="chatbot.css">
+  <script src="chatbot.js" defer></script>
+</head>
+<body>
+  <main class="assistant-shell">
+    <header class="topbar">
+      <a class="brand" href="../index.html" aria-label="DevPortfolio home">
+        <span class="brand-mark" aria-hidden="true">&lt;/&gt;</span>
+        <span>DevPortfolio<span class="brand-caption">CASE-STUDY BUILDER</span></span>
+      </a>
+      <a class="back-link" href="../index.html">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5m7 7-7-7 7-7"/></svg>
+        Back to dashboard
+      </a>
+      <a class="resume-link" href="resume.html">Resume printout</a>
+    </header>
+
+    <section class="assistant-card" aria-labelledby="page-title">
+      <div class="chat-header">
+        <div class="assistant-identity">
+          <div class="assistant-avatar" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M12 3 14.2 9.8 21 12l-6.8 2.2L12 21l-2.2-6.8L3 12l6.8-2.2L12 3Z"/><path d="m19 3 .8 2.2L22 6l-2.2.8L19 9l-.8-2.2L16 6l2.2-.8L19 3Z"/></svg>
+          </div>
+          <div>
+            <h1 id="page-title">Portfolio assistant</h1>
+            <p><span class="online-dot"></span> Here to help you build</p>
+          </div>
+        </div>
+        <button class="clear-button" id="clear-chat" type="button" aria-label="Clear conversation" title="Clear conversation">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18m-2 0-.9 14H5.9L5 6m4 0V4h6v2m-5 4v6m4-6v6"/></svg>
+        </button>
+      </div>
+
+      <div class="chat-body">
+        <div class="welcome-note">
+          <span class="welcome-kicker">YOUR BUILDING COMPANION</span>
+          <h2>Let’s make your work <span>stand out.</span></h2>
+          <p>Ask me about your profile, project case studies, templates, or exporting your portfolio.</p>
+        </div>
+
+        <div class="suggestions" id="suggestions" aria-label="Suggested questions">
+          <button type="button" class="suggestion-chip">How do I get started?</button>
+          <button type="button" class="suggestion-chip">What should I add to a case study?</button>
+          <button type="button" class="suggestion-chip">How do I export my portfolio?</button>
+        </div>
+
+        <div class="messages" id="messages" role="log" aria-live="polite" aria-relevant="additions text">
+          <article class="message assistant-message">
+            <span class="message-avatar" aria-hidden="true">✦</span>
+            <div class="message-content">
+              <span class="message-author">Portfolio assistant</span>
+              <p>Hi! I can guide you through setting up your profile, writing stronger case studies, picking a template, and exporting your portfolio. What would you like help with?</p>
+            </div>
+          </article>
+        </div>
+      </div>
+
+      <form class="composer" id="chat-form">
+        <label class="sr-only" for="chat-input">Your message</label>
+        <input id="chat-input" name="message" type="text" placeholder="Ask anything about your portfolio..." autocomplete="off" maxlength="500" required>
+        <button class="send-button" type="submit" aria-label="Send message">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m22 2-7 20-4-9-9-4 20-7ZM22 2 11 13"/></svg>
+        </button>
+      </form>
+      <p class="privacy-note">Portfolio helper · Runs in your browser · No API key needed</p>
+    </section>
+  </main>
+</body>
+</html>
