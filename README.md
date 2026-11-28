@@ -46,6 +46,11 @@ A modern, responsive web application for developers to build, customize, and exp
   - **Resume Printout:** Instant print / PDF resume generation populated directly from your saved profile and projects.
   - **Global Helper Widget:** Floating quick-access launcher available across every page.
 
+- **UI/UX Design Studio & Visual Architecture:**
+  - Interactive design system studio by Sameera Khan (`Sameera-UIUX/`).
+  - Real-time **WCAG contrast compliance checking** (`AA PASS` vs. `CHECK` warnings).
+  - Theme switching token audits, dynamic typography scales, and responsive preview viewports.
+
 - **One-Click Export:**
   - Download a self-contained, standalone `.html` file ready to host on GitHub Pages, Vercel, Netlify, or any static host.
   - Copy full source code directly to clipboard.
