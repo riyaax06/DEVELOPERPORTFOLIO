@@ -296,3 +296,32 @@ export default function PortfolioDesign() {
                         </div>
                       </div>
                     </div>
+                    <div className="pd-project-art">
+                    <div className="pd-project-art">
+                      <span>✳</span>
+                      <small>
+                        CASE
+                        <br />
+                        STUDY
+                      </small>
+                    </div>
+                  </div>
+                )}
+
+                <div className="pd-preview-foot">
+                  <span>DESIGNED WITH INTENTION</span>
+                  <span>SCROLL TO EXPLORE ↓</span>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </section>
+
+      <footer className="pd-footer">
+        A UI/UX design system for the Developer Portfolio & Case-Study Builder{" "}
+        <span>·</span> Sameera Khan
+      </footer>
+    </main>
+  );
+}
