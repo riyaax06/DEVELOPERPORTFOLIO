@@ -93,7 +93,7 @@ function renderDashboard() {
 
   // Template stat
   const tmpl = settings.selectedTemplate;
-  const tmplNames = { aurora: 'Aurora', minimal: 'Minimal', neon: 'Neon' };
+  const tmplNames = { aurora: 'Aurora', minimal: 'Minimal', neon: 'Neon', bento: 'Bento Studio', obsidian: 'Obsidian Luxe', dimension: 'Digital Dimension', canvas: 'Bold Canvas', flow: 'Creative Flow', aether: 'Aether', 'pixel-grid': 'Pixel Grid', monograph: 'Monograph', orbit: 'Orbit' };
   _setText('stat-template', tmplNames[tmpl] || '—');
   const tmplBadge = document.getElementById('stat-template-badge');
   if (tmplBadge) {
@@ -151,13 +151,22 @@ function renderDashboardMiniSnapshot(profile, projects, settings) {
   if (!iframe) return;
 
   const tplId = settings.selectedTemplate || 'aurora';
-  const tmplNames = { aurora: 'Aurora', minimal: 'Minimal', neon: 'Neon' };
+  const tmplNames = { aurora: 'Aurora', minimal: 'Minimal', neon: 'Neon', bento: 'Bento Studio', obsidian: 'Obsidian Luxe', dimension: 'Digital Dimension', canvas: 'Bold Canvas', flow: 'Creative Flow', aether: 'Aether', 'pixel-grid': 'Pixel Grid', monograph: 'Monograph', orbit: 'Orbit' };
   if (label) label.textContent = tmplNames[tplId] || 'Aurora';
 
   const renderers = {
     aurora: () => window.TemplateAurora,
     minimal: () => window.TemplateMinimal,
     neon: () => window.TemplateNeon,
+    bento: () => window.TemplateBento,
+    obsidian: () => window.TemplateObsidian,
+    dimension: () => window.TemplateDimension,
+    canvas: () => window.TemplateCanvas,
+    flow: () => window.TemplateFlow,
+    aether: () => window.TemplateAether,
+    'pixel-grid': () => window.TemplatePixelGrid,
+    monograph: () => window.TemplateMonograph,
+    orbit: () => window.TemplateOrbit,
   };
 
   const renderer = renderers[tplId]?.();

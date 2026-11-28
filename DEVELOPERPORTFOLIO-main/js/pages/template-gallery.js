@@ -24,6 +24,69 @@ const TEMPLATES = [
     renderer: () => window.TemplateNeon,
     palette: ['#020817', '#00ff88', '#00d4ff'],
   },
+  {
+    id: 'bento',
+    name: 'Bento Studio',
+    description: 'Asymmetrical pastel bento grid — personal site meets a refined studio layout',
+    renderer: () => window.TemplateBento,
+    palette: ['#f6f1ea', '#241f1b', '#e7b8a0'],
+  },
+  {
+    id: 'obsidian',
+    name: 'Obsidian Luxe',
+    description: 'Charcoal cinematic layout with champagne accents and serif editorial type',
+    renderer: () => window.TemplateObsidian,
+    palette: ['#0b0b0b', '#c6a15b', '#f3eee6'],
+  },
+  {
+    id: 'dimension',
+    name: 'Digital Dimension',
+    description: 'Violet and electric-blue space with layered glass and a 3D hero stage',
+    renderer: () => window.TemplateDimension,
+    palette: ['#070714', '#8b5cff', '#3d8bff'],
+  },
+  {
+    id: 'canvas',
+    name: 'Bold Canvas',
+    description: 'Oversized editorial type, asymmetric grids, and a strict black, paper, and red palette',
+    renderer: () => window.TemplateCanvas,
+    palette: ['#f4f1ea', '#111111', '#e10600'],
+  },
+  {
+    id: 'flow',
+    name: 'Creative Flow',
+    description: 'Organic editorial flow — serif headlines, clay and moss accents, staggered story bands',
+    renderer: () => window.TemplateFlow,
+    palette: ['#fff8f1', '#d85a3a', '#1f6b58'],
+  },
+  {
+    id: 'aether',
+    name: 'Aether',
+    description: 'Deep midnight navy with split-screen hero, violet & electric-blue gradients, and selective glass cards',
+    renderer: () => window.TemplateAether,
+    palette: ['#060918', '#8b5cf6', '#38bdf8'],
+  },
+  {
+    id: 'pixel-grid',
+    name: 'Pixel Grid',
+    description: 'Asymmetrical bento-grid developer website in light lavender, off-white & soft blue',
+    renderer: () => window.TemplatePixelGrid,
+    palette: ['#f6f5ff', '#6366f1', '#3b82f6'],
+  },
+  {
+    id: 'monograph',
+    name: 'Monograph',
+    description: 'High-end editorial portfolio — black, ivory & burnt orange with oversized typography',
+    renderer: () => window.TemplateMonograph,
+    palette: ['#f6f2ea', '#141414', '#d9532f'],
+  },
+  {
+    id: 'orbit',
+    name: 'Orbit',
+    description: 'Futuristic cosmic aesthetic — midnight blue & deep violet with orbital rings and layered glass',
+    renderer: () => window.TemplateOrbit,
+    palette: ['#070b1a', '#38bdf8', '#9333ea'],
+  },
 ];
 
 let previewingTemplateId = null;
@@ -32,10 +95,35 @@ document.addEventListener('DOMContentLoaded', () => {
   Theme.init();
   initSidebar();
   initThemeToggle();
+  initGridEvents();
   renderTemplateGrid();
   initModal();
   updateProjectCount();
 });
+
+function initGridEvents() {
+  const grid = document.getElementById('template-grid');
+  if (!grid) return;
+
+  grid.addEventListener('click', e => {
+    const applyBtn = e.target.closest('[data-action="apply"]');
+    if (applyBtn) {
+      e.stopPropagation();
+      selectTemplate(applyBtn.dataset.id);
+      return;
+    }
+    const previewBtn = e.target.closest('[data-action="preview"]');
+    if (previewBtn) {
+      e.stopPropagation();
+      openPreviewModal(previewBtn.dataset.id);
+      return;
+    }
+    const card = e.target.closest('.tg-card');
+    if (card) {
+      openPreviewModal(card.dataset.id);
+    }
+  });
+}
 
 function renderTemplateGrid() {
   const grid = document.getElementById('template-grid');
@@ -50,7 +138,7 @@ function renderTemplateGrid() {
       <div class="tg-preview" id="preview-${tpl.id}">
         <iframe id="iframe-${tpl.id}" title="${tpl.name} preview"></iframe>
         <div class="tg-preview-overlay">
-          <button class="btn btn-primary btn-sm">
+          <button class="btn btn-primary btn-sm" type="button" data-action="preview" data-id="${tpl.id}">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
             Preview
           </button>
@@ -62,11 +150,11 @@ function renderTemplateGrid() {
         </div>
         <div class="tg-name">${tpl.name}</div>
         <div class="tg-desc">${tpl.description}</div>
-        <div class="tg-footer">
+        <div class="tg-footer" style="gap:var(--space-2);flex-wrap:wrap">
           ${isActive
             ? `<div class="tg-active-badge"><div class="tg-active-dot"></div> Active Template</div>`
-            : `<span></span>`}
-          <button class="btn btn-secondary btn-sm" data-action="preview" data-id="${tpl.id}">Preview</button>
+            : `<button class="btn btn-primary btn-sm" type="button" data-action="apply" data-id="${tpl.id}">Use Template</button>`}
+          <button class="btn btn-secondary btn-sm" type="button" data-action="preview" data-id="${tpl.id}">Preview</button>
         </div>
       </div>
     </div>`;
@@ -76,17 +164,6 @@ function renderTemplateGrid() {
   setTimeout(() => {
     TEMPLATES.forEach(tpl => renderMiniPreview(tpl.id));
   }, 200);
-
-  // Event delegation
-  grid.addEventListener('click', e => {
-    const previewBtn = e.target.closest('[data-action="preview"]');
-    const card = e.target.closest('.tg-card');
-    if (previewBtn) {
-      openPreviewModal(previewBtn.dataset.id);
-    } else if (card) {
-      openPreviewModal(card.dataset.id);
-    }
-  });
 }
 
 function renderMiniPreview(templateId) {

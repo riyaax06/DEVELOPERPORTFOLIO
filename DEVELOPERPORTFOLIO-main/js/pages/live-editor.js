@@ -3,9 +3,18 @@
  */
 
 const RENDERERS = {
-  aurora:  () => window.TemplateAurora,
-  minimal: () => window.TemplateMinimal,
-  neon:    () => window.TemplateNeon,
+  aurora:       () => window.TemplateAurora,
+  minimal:      () => window.TemplateMinimal,
+  neon:         () => window.TemplateNeon,
+  bento:        () => window.TemplateBento,
+  obsidian:     () => window.TemplateObsidian,
+  dimension:    () => window.TemplateDimension,
+  canvas:       () => window.TemplateCanvas,
+  flow:         () => window.TemplateFlow,
+  aether:       () => window.TemplateAether,
+  'pixel-grid': () => window.TemplatePixelGrid,
+  monograph:    () => window.TemplateMonograph,
+  orbit:        () => window.TemplateOrbit,
 };
 
 const SECTIONS = [
@@ -53,15 +62,44 @@ function loadConfig() {
   updateTemplateBtns(settings.selectedTemplate);
 }
 
+const TEMPLATE_LABELS = {
+  aurora:       'Aurora',
+  minimal:      'Minimal',
+  neon:         'Neon',
+  bento:        'Bento Studio',
+  obsidian:     'Obsidian Luxe',
+  dimension:    'Digital Dimension',
+  canvas:       'Bold Canvas',
+  flow:         'Creative Flow',
+  aether:       'Aether',
+  'pixel-grid': 'Pixel Grid',
+  monograph:    'Monograph',
+  orbit:        'Orbit',
+};
+
 // ── Template Switcher ─────────────────────────────────────
+function applySelectedTemplate(tpl, notify = true) {
+  if (!tpl || !RENDERERS[tpl]) return;
+  clearTimeout(renderDebounce);
+  Store.Settings.setTemplate(tpl);
+  updateTemplateBtns(tpl);
+  renderPreview();
+  if (notify && window.Utils?.toast) {
+    Utils.toast(`${TEMPLATE_LABELS[tpl] || tpl} template applied!`, 'success', 1800);
+  }
+}
+
 function initTemplateSwitcher() {
   document.getElementById('template-switcher')?.addEventListener('click', e => {
     const btn = e.target.closest('.tpl-btn');
     if (!btn) return;
-    const tpl = btn.dataset.tpl;
-    Store.Settings.setTemplate(tpl);
-    updateTemplateBtns(tpl);
-    scheduleRender();
+    applySelectedTemplate(btn.dataset.tpl, true);
+  });
+
+  document.getElementById('apply-template-btn')?.addEventListener('click', () => {
+    const activeBtn = document.querySelector('#template-switcher .tpl-btn.active');
+    const tpl = activeBtn?.dataset.tpl || Store.Settings.get().selectedTemplate || 'aurora';
+    applySelectedTemplate(tpl, true);
   });
 }
 

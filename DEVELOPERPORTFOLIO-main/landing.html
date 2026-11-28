@@ -1344,6 +1344,64 @@
       </div>
 
     </div>
+
+    <!-- Additional Studio & Next-Gen Templates -->
+    <div style="margin-top:var(--space-8);padding-top:var(--space-8);border-top:1px solid var(--border-subtle)">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:var(--space-3);margin-bottom:var(--space-5)">
+        <div>
+          <div class="section-eyebrow" style="margin-bottom:4px">Expanded Collection</div>
+          <h3 style="font-size:var(--text-xl);font-weight:700;color:var(--text-primary)">Explore All 12 Ready-to-Use Templates</h3>
+        </div>
+        <a href="pages/template-gallery.html" class="btn btn-secondary btn-sm" onclick="if(!Auth.isLoggedIn()){event.preventDefault();selectTemplateAndOpen('aether');}">Open Full Gallery →</a>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:var(--space-4)" id="landing-all-templates">
+        <div class="template-card-showcase" style="padding:var(--space-5)">
+          <div class="tpl-card-title">Bento Studio</div>
+          <p class="tpl-card-desc">Asymmetrical pastel bento grid combining personal branding with studio polish.</p>
+          <button class="btn btn-secondary btn-sm" onclick="selectTemplateAndOpen('bento')">Use Bento Template →</button>
+        </div>
+        <div class="template-card-showcase" style="padding:var(--space-5)">
+          <div class="tpl-card-title">Obsidian Luxe</div>
+          <p class="tpl-card-desc">Charcoal cinematic layout with champagne accents and serif editorial typography.</p>
+          <button class="btn btn-secondary btn-sm" onclick="selectTemplateAndOpen('obsidian')">Use Obsidian Template →</button>
+        </div>
+        <div class="template-card-showcase" style="padding:var(--space-5)">
+          <div class="tpl-card-title">Digital Dimension</div>
+          <p class="tpl-card-desc">Violet and electric-blue layered glass space with a 3D-inspired hero stage.</p>
+          <button class="btn btn-secondary btn-sm" onclick="selectTemplateAndOpen('dimension')">Use Dimension Template →</button>
+        </div>
+        <div class="template-card-showcase" style="padding:var(--space-5)">
+          <div class="tpl-card-title">Bold Canvas</div>
+          <p class="tpl-card-desc">Oversized editorial type, asymmetric grids, and a crisp black, paper &amp; red palette.</p>
+          <button class="btn btn-secondary btn-sm" onclick="selectTemplateAndOpen('canvas')">Use Canvas Template →</button>
+        </div>
+        <div class="template-card-showcase" style="padding:var(--space-5)">
+          <div class="tpl-card-title">Creative Flow</div>
+          <p class="tpl-card-desc">Organic editorial flow with serif headlines, clay &amp; moss accents, and staggered bands.</p>
+          <button class="btn btn-secondary btn-sm" onclick="selectTemplateAndOpen('flow')">Use Flow Template →</button>
+        </div>
+        <div class="template-card-showcase" style="padding:var(--space-5)">
+          <div class="tpl-card-title">Aether</div>
+          <p class="tpl-card-desc">Deep midnight navy with split-screen hero, violet &amp; blue gradients, and selective glass.</p>
+          <button class="btn btn-primary btn-sm" onclick="selectTemplateAndOpen('aether')">Use Aether Template →</button>
+        </div>
+        <div class="template-card-showcase" style="padding:var(--space-5)">
+          <div class="tpl-card-title">Pixel Grid</div>
+          <p class="tpl-card-desc">Asymmetrical bento-grid developer site in light lavender, off-white &amp; soft blue.</p>
+          <button class="btn btn-primary btn-sm" onclick="selectTemplateAndOpen('pixel-grid')">Use Pixel Grid Template →</button>
+        </div>
+        <div class="template-card-showcase" style="padding:var(--space-5)">
+          <div class="tpl-card-title">Monograph</div>
+          <p class="tpl-card-desc">High-end editorial design studio aesthetic in black, ivory &amp; burnt orange.</p>
+          <button class="btn btn-primary btn-sm" onclick="selectTemplateAndOpen('monograph')">Use Monograph Template →</button>
+        </div>
+        <div class="template-card-showcase" style="padding:var(--space-5)">
+          <div class="tpl-card-title">Orbit</div>
+          <p class="tpl-card-desc">Midnight blue &amp; deep violet cosmic theme with orbital rings and floating glass.</p>
+          <button class="btn btn-primary btn-sm" onclick="selectTemplateAndOpen('orbit')">Use Orbit Template →</button>
+        </div>
+      </div>
+    </div>
   </section>
 
   <!-- ══════════════════════════════════════════

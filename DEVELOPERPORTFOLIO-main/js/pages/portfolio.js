@@ -3,12 +3,34 @@
  */
 
 const RENDERERS = {
-  aurora:  () => window.TemplateAurora,
-  minimal: () => window.TemplateMinimal,
-  neon:    () => window.TemplateNeon,
+  aurora:       () => window.TemplateAurora,
+  minimal:      () => window.TemplateMinimal,
+  neon:         () => window.TemplateNeon,
+  bento:        () => window.TemplateBento,
+  obsidian:     () => window.TemplateObsidian,
+  dimension:    () => window.TemplateDimension,
+  canvas:       () => window.TemplateCanvas,
+  flow:         () => window.TemplateFlow,
+  aether:       () => window.TemplateAether,
+  'pixel-grid': () => window.TemplatePixelGrid,
+  monograph:    () => window.TemplateMonograph,
+  orbit:        () => window.TemplateOrbit,
 };
 
-const TEMPLATE_NAMES = { aurora: 'Aurora', minimal: 'Minimal', neon: 'Neon' };
+const TEMPLATE_NAMES = {
+  aurora: 'Aurora',
+  minimal: 'Minimal',
+  neon: 'Neon',
+  bento: 'Bento Studio',
+  obsidian: 'Obsidian Luxe',
+  dimension: 'Digital Dimension',
+  canvas: 'Bold Canvas',
+  flow: 'Creative Flow',
+  aether: 'Aether',
+  'pixel-grid': 'Pixel Grid',
+  monograph: 'Monograph',
+  orbit: 'Orbit',
+};
 
 let currentHtml = '';
 
