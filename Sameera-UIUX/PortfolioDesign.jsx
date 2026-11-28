@@ -2,8 +2,8 @@ import { useState } from "react";
 import "./PortfolioDesign.css";
 
 const THEMES = [
-  { id: "aurora", name: "Aurora", note: "Dark · Glassmorphism", badge: "Aa" },
-  { id: "minimal", name: "Minimal", note: "Light · Editorial", badge: "Aa" },
+  { id: "aurora", name: "Aurora", note: "Dark · Glassmorphism", badge: "Ag" },
+  { id: "minimal", name: "Minimal", note: "Editorial · Light", badge: "Ag" },
   { id: "neon", name: "Neon", note: "Cyberpunk · Terminal", badge: ">_" },
 ];
 
@@ -15,118 +15,121 @@ const FONTS = [
 
 const VIEWPORTS = [
   { id: "desktop", label: "Desktop", width: "100%" },
-  { id: "tablet", label: "Tablet", width: "640px" },
+  { id: "tablet", label: "Tablet", width: "620px" },
   { id: "mobile", label: "Mobile", width: "375px" },
 ];
 
 export default function PortfolioDesign() {
   const [theme, setTheme] = useState("aurora");
-  const [font, setFont] = useState(FONTS[0]);
+  const [fontId, setFontId] = useState("sans");
   const [viewport, setViewport] = useState("desktop");
-  const [accent, setAccent] = useState("#a78bfa");
+  const [accent, setAccent] = useState("#c9f27a");
 
-  // Profile & Case-Study Content State
+  // Profile & Structured Case-Study State
   const [name, setName] = useState("Alex Morgan");
-  const [role, setRole] = useState("Full-Stack Frontend Engineer");
+  const [role, setRole] = useState("Frontend Developer");
   const [about, setAbout] = useState(
-    "I craft accessible, high-performance web applications and structured design systems."
+    "I build accessible, thoughtful digital experiences with clean design systems."
   );
-  const [projectTitle, setProjectTitle] = useState("DevPortfolio & Case-Study Builder");
+  const [project, setProject] = useState("A portfolio that tells a story");
   const [problem, setProblem] = useState(
-    "Developers struggle to turn raw GitHub repos into structured, recruiter-ready case studies."
+    "Developers struggle to present raw repositories as structured, recruiter-ready case studies."
   );
   const [outcome, setOutcome] = useState(
-    "Zero-backend client-side builder with live theming and 1-click static HTML export."
+    "Client-side template engine with instant theme switching and standalone HTML export."
   );
   const [showCaseStudy, setShowCaseStudy] = useState(true);
 
+  const activeFont =
+    FONTS.find((f) => f.id === fontId)?.family || FONTS[0].family;
   const activeViewportWidth =
     VIEWPORTS.find((v) => v.id === viewport)?.width || "100%";
 
+  const initials =
+    name
+      .trim()
+      .split(" ")
+      .filter(Boolean)
+      .map((n) => n[0])
+      .join("")
+      .slice(0, 2)
+      .toUpperCase() || "AM";
+
   return (
     <main className="pd-shell">
-      {/* Top Studio Header */}
       <header className="pd-topbar">
         <div className="pd-brand">
           <span className="pd-mark">✳</span> folio
-          <span className="pd-muted">/studio · UI/UX System</span>
+          <span className="pd-muted">/studio</span>
         </div>
-        <div className="pd-topbar-meta">
-          <span className="pd-status">UI/UX DESIGN PROTOTYPE</span>
-        </div>
+        <span className="pd-status">UI/UX DESIGN SYSTEM</span>
       </header>
 
-      {/* Hero Header */}
       <section className="pd-heading">
         <div>
-          <p className="pd-eyebrow">DESIGN SYSTEM & VISUAL ARCHITECTURE</p>
+          <p className="pd-eyebrow">PORTFOLIO BUILDER · UI/UX ARCHITECTURE</p>
           <h1>
-            Craft portfolios that <em>tell a story.</em>
+            Make your work
+            <br />
+            <em>tell your story.</em>
           </h1>
           <p className="pd-intro">
-            Interactive UI/UX reference showcasing live theme switching (Aurora,
-            Minimal, Neon), typography tokens, responsive viewports, and
-            structured case-study layouts.
+            Shape a clear, personal portfolio with live theme tokens (Aurora,
+            Minimal, Neon), typography controls, and responsive viewport previews.
           </p>
         </div>
         <div className="pd-step">
-          <span>01</span> <span>Configure Tokens</span>
-          <i>→</i>
-          <span>02</span> <span>Live Preview</span>
-          <i>→</i>
-          <span>03</span> <span>Export HTML</span>
+          <span>01</span>
+          <span>Profile</span>
+          <i>—</i>
+          <span>02</span>
+          <span>Tokens</span>
+          <i>—</i>
+          <span>03</span>
+          <span>Preview</span>
         </div>
       </section>
 
-      {/* Main Split Workspace */}
       <section className="pd-workspace">
         {/* Left Control Panel */}
         <aside className="pd-panel">
           <div className="pd-panel-title">
             <div>
-              <p className="pd-eyebrow">CUSTOMIZATION</p>
-              <h2>Theme & Visual Tokens</h2>
+              <p className="pd-eyebrow">VISUAL DIRECTION</p>
+              <h2>Theme & Tokens</h2>
             </div>
-            <span className="pd-number">01/02</span>
+            <span className="pd-number">01</span>
           </div>
 
-          {/* Theme Switcher */}
-          <div className="pd-control-group">
-            <span className="pd-group-label">Select Portfolio Theme</span>
-            <div className="pd-themes">
-              {THEMES.map((t) => (
-                <button
-                  key={t.id}
-                  type="button"
-                  onClick={() => setTheme(t.id)}
-                  className={`pd-theme ${theme === t.id ? "is-selected" : ""}`}
-                >
-                  <span className={`pd-swatch pd-swatch-${t.id}`}>
-                    {t.badge}
-                  </span>
-                  <div>
-                    <strong>{t.name}</strong>
-                    <small>{t.note}</small>
-                  </div>
-                  <span className="pd-radio">
-                    {theme === t.id ? "✓" : ""}
-                  </span>
-                </button>
-              ))}
-            </div>
+          <div className="pd-themes">
+            {THEMES.map((item) => (
+              <button
+                key={item.id}
+                type="button"
+                className={`pd-theme ${theme === item.id ? "is-selected" : ""}`}
+                onClick={() => setTheme(item.id)}
+                aria-pressed={theme === item.id}
+              >
+                <span className={`pd-swatch pd-swatch-${item.id}`}>
+                  <b>{item.badge}</b>
+                </span>
+                <span>
+                  <strong>{item.name}</strong>
+                  <small>{item.note}</small>
+                </span>
+                <span className="pd-radio">
+                  {theme === item.id ? "✓" : ""}
+                </span>
+              </button>
+            ))}
           </div>
 
-          <div className="pd-divider" />
-
-          {/* Typography & Accent Controls */}
           <div className="pd-row-2">
             <label>
-              Typography
+              Font Family
               <select
-                value={font.id}
-                onChange={(e) =>
-                  setFont(FONTS.find((f) => f.id === e.target.value) || FONTS[0])
-                }
+                value={fontId}
+                onChange={(e) => setFontId(e.target.value)}
               >
                 {FONTS.map((f) => (
                   <option key={f.id} value={f.id}>
@@ -137,7 +140,7 @@ export default function PortfolioDesign() {
             </label>
 
             <label>
-              Accent Token
+              Accent Color
               <div className="pd-color-wrap">
                 <input
                   type="color"
@@ -151,27 +154,24 @@ export default function PortfolioDesign() {
 
           <div className="pd-divider" />
 
-          {/* Content Inputs */}
-          <label>
-            Developer Name
-            <input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-          </label>
+          <div className="pd-panel-title">
+            <div>
+              <p className="pd-eyebrow">YOUR CONTENT</p>
+              <h2>Profile & Case Study</h2>
+            </div>
+            <span className="pd-number">02</span>
+          </div>
 
           <label>
-            Headline / Role
-            <input
-              type="text"
-              value={role}
-              onChange={(e) => setRole(e.target.value)}
-            />
+            Name
+            <input value={name} onChange={(e) => setName(e.target.value)} />
           </label>
-
           <label>
-            Short Bio
+            Role
+            <input value={role} onChange={(e) => setRole(e.target.value)} />
+          </label>
+          <label>
+            Short introduction
             <textarea
               rows="2"
               value={about}
@@ -179,11 +179,8 @@ export default function PortfolioDesign() {
             />
           </label>
 
-          <div className="pd-divider" />
-
-          {/* Case Study Controls */}
           <div className="pd-toggle-row">
-            <span>Show Structured Case Study</span>
+            <span>Include Case-Study Card</span>
             <input
               type="checkbox"
               checked={showCaseStudy}
@@ -194,15 +191,14 @@ export default function PortfolioDesign() {
           {showCaseStudy && (
             <>
               <label>
-                Featured Case-Study Title
+                Featured project
                 <input
-                  type="text"
-                  value={projectTitle}
-                  onChange={(e) => setProjectTitle(e.target.value)}
+                  value={project}
+                  onChange={(e) => setProject(e.target.value)}
                 />
               </label>
               <label>
-                Problem Statement
+                Problem statement
                 <textarea
                   rows="2"
                   value={problem}
@@ -210,7 +206,7 @@ export default function PortfolioDesign() {
                 />
               </label>
               <label>
-                Outcome & Impact
+                Key outcome
                 <textarea
                   rows="2"
                   value={outcome}
@@ -221,14 +217,13 @@ export default function PortfolioDesign() {
           )}
 
           <p className="pd-hint">
-            All UI tokens map directly to CSS custom properties in{" "}
+            All tokens map directly to CSS custom properties in{" "}
             <code>css/variables.css</code>.
           </p>
         </aside>
 
         {/* Right Live Preview Stage */}
         <div className="pd-stage">
-          {/* Viewport Switcher Toolbar */}
           <div className="pd-stage-toolbar">
             <div className="pd-viewport-tabs">
               {VIEWPORTS.map((v) => (
@@ -247,50 +242,57 @@ export default function PortfolioDesign() {
             </span>
           </div>
 
-          {/* Responsive Preview Frame */}
           <div className="pd-preview-wrapper">
-            <article
+            <section
               className={`pd-preview pd-preview-${theme}`}
+              aria-label="Live portfolio preview"
               style={{
                 width: activeViewportWidth,
-                fontFamily: font.family,
+                fontFamily: activeFont,
                 "--user-accent": accent,
               }}
             >
               <div className="pd-previewbar">
                 <span>
-                  <i className="pd-live-dot" />
-                  LIVE PREVIEW · {theme.toUpperCase()} THEME
+                  <b className="pd-live-dot" /> LIVE PREVIEW ·{" "}
+                  {theme.toUpperCase()}
                 </span>
-                <span>2026 EDITION</span>
+                <span>PORTFOLIO / 2026</span>
               </div>
 
               <div className="pd-preview-content">
-                <nav className="pd-preview-nav">
-                  <span className="pd-preview-logo">
-                    {name.slice(0, 2).toUpperCase() || "AM"}
-                  </span>
-                  <div>WORK · CASE STUDIES · CONTACT</div>
-                </nav>
+                <div className="pd-preview-nav">
+                  <span className="pd-preview-logo">{initials}</span>
+                  <span>ABOUT&nbsp;&nbsp;&nbsp;WORK&nbsp;&nbsp;&nbsp;CONTACT</span>
+                </div>
 
-                <p className="pd-preview-kicker">AVAILABLE FOR OPPORTUNITIES</p>
+                <p className="pd-preview-kicker">HELLO, I&apos;M</p>
                 <h2>
-                  {name}
+                  {name || "Your name"}
                   <span>.</span>
                 </h2>
-                <p className="pd-preview-role">{role}</p>
-                <p className="pd-preview-about">{about}</p>
+                <p className="pd-preview-role">{role || "Your role"}</p>
+                <p className="pd-preview-about">
+                  {about || "A short introduction about you."}
+                </p>
 
                 <button type="button" className="pd-cta">
-                  Explore Case Studies <span>↗</span>
+                  Explore my work <span>↗</span>
                 </button>
 
                 {showCaseStudy && (
                   <div className="pd-project">
-                    <div className="pd-project-body">
-                      <p className="pd-preview-kicker">FEATURED CASE STUDY</p>
-                      <h3>{projectTitle}</h3>
+                    <div className="pd-project-main">
+                      <p className="pd-preview-kicker">FEATURED PROJECT · 01</p>
+                      <h3>{project || "Your featured project"}</h3>
                       <div className="pd-cs-grid">
                         <div>
-                          <strong>01 · Problem</strong>
+                          <strong>01 · PROBLEM</strong>
                           <p>{problem}</p>
+                        </div>
+                        <div>
+                          <strong>02 · OUTCOME</strong>
+                          <p>{outcome}</p>
+                        </div>
+                      </div>
+                    </div>
