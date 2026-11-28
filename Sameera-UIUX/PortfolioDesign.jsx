@@ -301,9 +301,6 @@ export default function PortfolioDesign() {
               <div className="pd-preview-content">
                 <div className="pd-preview-nav">
                   <span className="pd-preview-logo">{initials}</span>
-              <div className="pd-preview-content">
-                <div className="pd-preview-nav">
-                  <span className="pd-preview-logo">{initials}</span>
                   <span>ABOUT&nbsp;&nbsp;&nbsp;WORK&nbsp;&nbsp;&nbsp;CONTACT</span>
                 </div>
 
