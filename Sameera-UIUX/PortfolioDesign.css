@@ -16,6 +16,7 @@
   box-sizing: border-box;
 }
 
+/* Header */
 .pd-topbar {
   display: flex;
   align-items: center;
@@ -58,6 +59,7 @@
   background: #fff;
 }
 
+/* Hero */
 .pd-heading {
   display: flex;
   justify-content: space-between;
@@ -112,6 +114,7 @@
   font-style: normal;
 }
 
+/* Workspace */
 .pd-workspace {
   display: grid;
   grid-template-columns: minmax(280px, 355px) minmax(0, 1fr);
@@ -227,6 +230,7 @@
   margin: 18px 0;
 }
 
+/* Themes */
 .pd-themes {
   display: grid;
   gap: 8px;
@@ -317,6 +321,7 @@
   margin: 12px 0 0;
 }
 
+/* Preview Stage & Viewport Switcher */
 .pd-stage {
   background: #ececf2;
   border: 1px solid #dfdee7;
@@ -366,6 +371,7 @@
   overflow-x: auto;
 }
 
+/* Preview Card */
 .pd-preview {
   max-width: 100%;
   min-height: 580px;
@@ -461,6 +467,7 @@
   margin-left: 8px;
 }
 
+/* Case Study Box */
 .pd-project {
   margin-top: 38px;
   border-radius: 13px;
@@ -528,6 +535,7 @@
   opacity: 0.7;
 }
 
+/* THEME 1: AURORA (Dark Glassmorphism) */
 .pd-preview-aurora {
   background: radial-gradient(circle at top right, #312361 0%, #1c1e34 55%, #141628 100%);
   color: #f5f4fa;
@@ -558,6 +566,7 @@
   backdrop-filter: blur(10px);
 }
 
+/* THEME 2: MINIMAL (Editorial Light) */
 .pd-preview-minimal {
   background: #f4eee5;
   color: #29272b;
@@ -580,17 +589,16 @@
 
 .pd-preview-minimal .pd-preview-about,
 .pd-preview-minimal .pd-cs-grid p {
-  color: #6e6862;
+color: #6e6862;
 }
-
 .pd-preview-minimal .pd-project {
-  border: 1px solid rgba(41, 39, 43, 0.14);
-  background: rgba(255, 255, 255, 0.65);
+border: 1px solid rgba(41, 39, 43, 0.14);
+background: rgba(255, 255, 255, 0.65);
 }
-
+/* THEME 3: NEON (Cyberpunk Terminal) */
 .pd-preview-neon {
-  background: #060912;
-  color: #eaf7ff;
+background: #060912;
+color: #eaf7ff;
 border: 1px solid rgba(0, 245, 212, 0.25);
 }
 .pd-preview-neon .pd-previewbar {
@@ -613,6 +621,52 @@ color: #98b3c7;
 border: 1px solid rgba(0, 245, 212, 0.35);
 background: rgba(0, 245, 212, 0.04);
 }
+/* WCAG Contrast Audit Box */
+.pd-wcag-box {
+display: flex;
+align-items: center;
+justify-content: space-between;
+gap: 10px;
+padding: 10px 12px;
+border-radius: 10px;
+margin-top: 8px;
+border: 1px solid #e5e4eb;
+background: #f9f9fb;
+}
+.pd-wcag-box strong {
+display: block;
+font-size: 11px;
+color: #20212a;
+}
+.pd-wcag-box small {
+display: block;
+font-size: 10px;
+color: #6f707d;
+margin-top: 2px;
+}
+.pd-wcag-pill {
+font: 600 9px 'DM Mono', monospace;
+padding: 4px 8px;
+border-radius: 99px;
+white-space: nowrap;
+}
+.pd-wcag-box.is-pass {
+background: #f2fbf4;
+border-color: #bfe6c8;
+}
+.pd-wcag-box.is-pass .pd-wcag-pill {
+background: #1f8b4c;
+color: #ffffff;
+}
+.pd-wcag-box.is-warn {
+background: #fff8f0;
+border-color: #f3d2a8;
+}
+.pd-wcag-box.is-warn .pd-wcag-pill {
+background: #c96a1b;
+color: #ffffff;
+}
+/* Footer & Responsive */
 .pd-footer {
 font-size: 10px;
 color: #92929d;
