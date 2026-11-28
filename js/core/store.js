@@ -31,6 +31,7 @@ const DEFAULT_SETTINGS = {
   editorConfig: {
     primaryColor: '#3b82f6',
     secondaryColor: '#8b5cf6',
+    bgColor: '',
     fontFamily: 'Inter',
     showSections: {
       hero: true,

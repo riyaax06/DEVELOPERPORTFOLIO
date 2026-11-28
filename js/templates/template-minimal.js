@@ -9,8 +9,24 @@ window.TemplateMinimal = {
 
   render(profile, projects, config = {}) {
     const primary   = config.primaryColor   || '#3b82f6';
+    const bg        = config.bgColor        || '#ffffff';
     const font      = config.fontFamily     || 'Inter';
     const show      = config.showSections   || {};
+
+    // Determine if custom bg is dark to auto-adjust text contrast
+    const isDark = (hex) => {
+      const c = hex.replace('#', '');
+      if (c.length !== 6) return false;
+      const r = parseInt(c.substr(0, 2), 16);
+      const g = parseInt(c.substr(2, 2), 16);
+      const b = parseInt(c.substr(4, 2), 16);
+      return (r * 0.299 + g * 0.587 + b * 0.114) < 140;
+    };
+    const darkTheme = isDark(bg);
+    const textColor = darkTheme ? '#f9fafb' : '#111827';
+    const textMuted = darkTheme ? '#9ca3af' : '#6b7280';
+    const borderColor = darkTheme ? 'rgba(255,255,255,0.1)' : '#f3f4f6';
+    const cardBg = darkTheme ? 'rgba(255,255,255,0.04)' : '#fafafa';
 
     return `<!DOCTYPE html>
 <html lang="en">
@@ -25,10 +41,15 @@ window.TemplateMinimal = {
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
       --primary: ${primary};
+      --bg-color: ${bg};
+      --text-main: ${textColor};
+      --text-sub: ${textMuted};
+      --border-color: ${borderColor};
+      --card-bg: ${cardBg};
       --font: '${font}', sans-serif;
     }
     html { scroll-behavior: smooth; }
-    body { font-family: var(--font); background: #ffffff; color: #111827; -webkit-font-smoothing: antialiased; }
+    body { font-family: var(--font); background: var(--bg-color); color: var(--text-main); -webkit-font-smoothing: antialiased; }
     a { color: var(--primary); text-decoration: none; }
     ul { list-style: none; }
     img { display: block; max-width: 100%; }
@@ -38,26 +59,26 @@ window.TemplateMinimal = {
 
     /* ── Header ── */
     header {
-      border-bottom: 1px solid #f3f4f6;
-      position: sticky; top: 0; background: rgba(255,255,255,0.95);
+      border-bottom: 1px solid var(--border-color);
+      position: sticky; top: 0; background: color-mix(in srgb, var(--bg-color) 95%, transparent);
       backdrop-filter: blur(12px); z-index: 100;
     }
     .header-inner {
       display: flex; align-items: center; justify-content: space-between;
       padding: 1rem 1.5rem; max-width: 800px; margin: 0 auto;
     }
-    .header-name { font-weight: 700; font-size: 1rem; color: #111827; }
+    .header-name { font-weight: 700; font-size: 1rem; color: var(--text-main); }
     .header-nav { display: flex; gap: 1.5rem; }
-    .header-nav a { font-size: 0.875rem; color: #6b7280; transition: color 150ms; }
+    .header-nav a { font-size: 0.875rem; color: var(--text-sub); transition: color 150ms; }
     .header-nav a:hover { color: var(--primary); }
 
     /* ── Hero ── */
     .hero { padding: 5rem 1.5rem 4rem; max-width: 800px; margin: 0 auto; }
     .hero-grid { display: grid; grid-template-columns: 1fr auto; gap: 3rem; align-items: center; }
     .hero-kicker { font-size: 0.8125rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--primary); margin-bottom: 1rem; }
-    .hero-name  { font-size: clamp(2rem, 5vw, 3rem); font-weight: 700; line-height: 1.1; color: #111827; margin-bottom: 0.75rem; }
-    .hero-role  { font-size: 1.125rem; color: #6b7280; margin-bottom: 1.25rem; }
-    .hero-bio   { font-size: 0.9375rem; color: #4b5563; line-height: 1.8; margin-bottom: 1.75rem; }
+    .hero-name  { font-size: clamp(2rem, 5vw, 3rem); font-weight: 700; line-height: 1.1; color: var(--text-main); margin-bottom: 0.75rem; }
+    .hero-role  { font-size: 1.125rem; color: var(--text-sub); margin-bottom: 1.25rem; }
+    .hero-bio   { font-size: 0.9375rem; color: var(--text-sub); line-height: 1.8; margin-bottom: 1.75rem; }
     .hero-cta   { display: flex; gap: 0.875rem; flex-wrap: wrap; }
     .btn-primary-min {
       padding: 10px 22px; border-radius: 8px;

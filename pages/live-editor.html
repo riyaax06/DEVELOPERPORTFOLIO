@@ -105,14 +105,24 @@
               <input type="text" id="color-secondary-hex" class="input" value="#8b5cf6" style="font-family:var(--font-mono);font-size:var(--text-xs)" />
             </div>
           </div>
+          <div class="form-group">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-1)">
+              <label class="form-label" style="font-size:var(--text-xs);margin-bottom:0">Background Color</label>
+              <button type="button" id="reset-bg-btn" class="btn btn-ghost btn-sm" style="font-size:10px;padding:1px 6px;height:auto">Default</button>
+            </div>
+            <div style="display:flex;gap:var(--space-2);align-items:center">
+              <input type="color" id="color-bg" class="color-input" value="#060d1f" />
+              <input type="text" id="color-bg-hex" class="input" placeholder="Default / #060d1f" style="font-family:var(--font-mono);font-size:var(--text-xs)" />
+            </div>
+          </div>
           <!-- Color Presets -->
           <div class="color-presets">
-            <div class="preset-dot" data-primary="#3b82f6" data-secondary="#8b5cf6" style="background:linear-gradient(135deg,#3b82f6,#8b5cf6)" title="Ocean"></div>
-            <div class="preset-dot" data-primary="#10b981" data-secondary="#06b6d4" style="background:linear-gradient(135deg,#10b981,#06b6d4)" title="Teal"></div>
-            <div class="preset-dot" data-primary="#f59e0b" data-secondary="#ef4444" style="background:linear-gradient(135deg,#f59e0b,#ef4444)" title="Sunset"></div>
-            <div class="preset-dot" data-primary="#ec4899" data-secondary="#8b5cf6" style="background:linear-gradient(135deg,#ec4899,#8b5cf6)" title="Candy"></div>
-            <div class="preset-dot" data-primary="#00ff88" data-secondary="#00d4ff" style="background:linear-gradient(135deg,#00ff88,#00d4ff)" title="Neon"></div>
-            <div class="preset-dot" data-primary="#f97316" data-secondary="#ea580c" style="background:linear-gradient(135deg,#f97316,#ea580c)" title="Orange"></div>
+            <div class="preset-dot" data-primary="#3b82f6" data-secondary="#8b5cf6" data-bg="#060d1f" style="background:linear-gradient(135deg,#3b82f6,#8b5cf6)" title="Ocean (Dark)"></div>
+            <div class="preset-dot" data-primary="#10b981" data-secondary="#06b6d4" data-bg="#021c1e" style="background:linear-gradient(135deg,#10b981,#06b6d4)" title="Teal (Deep)"></div>
+            <div class="preset-dot" data-primary="#f59e0b" data-secondary="#ef4444" data-bg="#1f0d06" style="background:linear-gradient(135deg,#f59e0b,#ef4444)" title="Sunset (Warm)"></div>
+            <div class="preset-dot" data-primary="#ec4899" data-secondary="#8b5cf6" data-bg="#170624" style="background:linear-gradient(135deg,#ec4899,#8b5cf6)" title="Candy (Night)"></div>
+            <div class="preset-dot" data-primary="#00ff88" data-secondary="#00d4ff" data-bg="#020817" style="background:linear-gradient(135deg,#00ff88,#00d4ff)" title="Neon (Cyber)"></div>
+            <div class="preset-dot" data-primary="#2563eb" data-secondary="#4f46e5" data-bg="#ffffff" style="background:linear-gradient(135deg,#ffffff,#cbd5e1)" title="Clean Light"></div>
           </div>
         </div>
 

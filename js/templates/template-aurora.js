@@ -10,6 +10,7 @@ window.TemplateAurora = {
   render(profile, projects, config = {}) {
     const primary   = config.primaryColor   || '#3b82f6';
     const secondary = config.secondaryColor || '#8b5cf6';
+    const bg        = config.bgColor        || '#060d1f';
     const font      = config.fontFamily     || 'Inter';
     const show      = config.showSections   || {};
 
@@ -27,13 +28,14 @@ window.TemplateAurora = {
     :root {
       --primary: ${primary};
       --secondary: ${secondary};
+      --bg-color: ${bg};
       --gradient: linear-gradient(135deg, ${primary} 0%, ${secondary} 100%);
       --font: '${font}', sans-serif;
     }
     html { scroll-behavior: smooth; }
     body {
       font-family: var(--font);
-      background: #060d1f;
+      background: var(--bg-color);
       color: #f1f5f9;
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
@@ -47,7 +49,11 @@ window.TemplateAurora = {
     nav {
       position: fixed; top: 0; left: 0; right: 0;
       z-index: 100;
-      background: rgba(6,13,31,0.85);
+      background: color-mix(in srgb, var(--bg-color) 85%, transparent);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      padding: 0 2rem;
+    }
       backdrop-filter: blur(20px);
       border-bottom: 1px solid rgba(255,255,255,0.08);
       padding: 0 2rem;

@@ -10,6 +10,7 @@ window.TemplateNeon = {
   render(profile, projects, config = {}) {
     const primary   = config.primaryColor   || '#00ff88';
     const secondary = config.secondaryColor || '#00d4ff';
+    const bg        = config.bgColor        || '#020817';
     const font      = config.fontFamily     || 'Inter';
     const show      = config.showSections   || {};
 
@@ -27,12 +28,13 @@ window.TemplateNeon = {
     :root {
       --neon: ${primary};
       --neon2: ${secondary};
+      --bg-color: ${bg};
       --font: '${font}', 'Courier New', monospace;
     }
     html { scroll-behavior: smooth; }
     body {
       font-family: var(--font);
-      background: #020817;
+      background: var(--bg-color);
       color: #e2e8f0;
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
@@ -55,7 +57,7 @@ window.TemplateNeon = {
     nav {
       position: fixed; top: 0; left: 0; right: 0;
       z-index: 100;
-      background: rgba(2,8,23,0.9);
+      background: color-mix(in srgb, var(--bg-color) 90%, transparent);
       backdrop-filter: blur(20px);
       border-bottom: 1px solid rgba(0,255,136,0.15);
       padding: 0 2rem;

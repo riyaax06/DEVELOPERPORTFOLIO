@@ -37,15 +37,25 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // ── Load config from Store ────────────────────────────────
+const TEMPLATE_DEFAULTS = {
+  aurora:  { primaryColor: '#3b82f6', secondaryColor: '#8b5cf6', bgColor: '#060d1f' },
+  minimal: { primaryColor: '#3b82f6', secondaryColor: '#6b7280', bgColor: '#ffffff' },
+  neon:    { primaryColor: '#00ff88', secondaryColor: '#00d4ff', bgColor: '#020817' },
+};
+
 function loadConfig() {
   const settings = Store.Settings.get();
   currentConfig = JSON.parse(JSON.stringify(settings.editorConfig));
+  const tpl = settings.selectedTemplate || 'aurora';
+  const defaultBg = TEMPLATE_DEFAULTS[tpl]?.bgColor || '#060d1f';
 
   // Set color inputs
   setValue('color-primary',       currentConfig.primaryColor);
   setValue('color-primary-hex',   currentConfig.primaryColor);
   setValue('color-secondary',     currentConfig.secondaryColor);
   setValue('color-secondary-hex', currentConfig.secondaryColor);
+  setValue('color-bg',            currentConfig.bgColor || defaultBg);
+  setValue('color-bg-hex',        currentConfig.bgColor || '');
   setValue('font-selector',       currentConfig.fontFamily);
 
   // Active template button
@@ -76,6 +86,7 @@ function initColorPickers() {
   const pairs = [
     ['color-primary',   'color-primary-hex',   'primaryColor'],
     ['color-secondary', 'color-secondary-hex', 'secondaryColor'],
+    ['color-bg',        'color-bg-hex',        'bgColor'],
   ];
 
   pairs.forEach(([colorId, hexId, key]) => {
@@ -89,13 +100,27 @@ function initColorPickers() {
     });
 
     hexInput?.addEventListener('input', Utils.debounce(() => {
-      const val = hexInput.value;
-      if (/^#[0-9a-f]{6}$/i.test(val)) {
+      const val = hexInput.value.trim();
+      if (/^#[0-9a-f]{6}$/i.test(val) || /^#[0-9a-f]{3}$/i.test(val)) {
         if (colorInput) colorInput.value = val;
         currentConfig[key] = val;
         saveConfigAndRender();
+      } else if (val === '' && key === 'bgColor') {
+        currentConfig[key] = '';
+        saveConfigAndRender();
       }
     }, 400));
+  });
+
+  // Reset BG to template default
+  document.getElementById('reset-bg-btn')?.addEventListener('click', () => {
+    const tpl = Store.Settings.get().selectedTemplate || 'aurora';
+    const defaultBg = TEMPLATE_DEFAULTS[tpl]?.bgColor || '#060d1f';
+    currentConfig.bgColor = '';
+    setValue('color-bg', defaultBg);
+    setValue('color-bg-hex', '');
+    saveConfigAndRender();
+    Utils.toast('Background reset to template default', 'info', 1500);
   });
 
   // Preset dots
@@ -103,12 +128,18 @@ function initColorPickers() {
     dot.addEventListener('click', () => {
       const p = dot.dataset.primary;
       const s = dot.dataset.secondary;
+      const bg = dot.dataset.bg;
       setValue('color-primary',       p);
       setValue('color-primary-hex',   p);
       setValue('color-secondary',     s);
       setValue('color-secondary-hex', s);
       currentConfig.primaryColor   = p;
       currentConfig.secondaryColor = s;
+      if (bg) {
+        setValue('color-bg',     bg);
+        setValue('color-bg-hex', bg);
+        currentConfig.bgColor    = bg;
+      }
       saveConfigAndRender();
     });
   });
